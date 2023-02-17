@@ -1,0 +1,17 @@
+1/31
+module restore DeepDG
+Python/3.8.6 PyTorch/1.7.1 IPython/7.18.1 scikit-learn/0.23.2
+git cloned transferlearning: esrwck/transferlearning
+datadir: DeepDG/Data/Lanzhou_ERP/
+bash scripts/run.sh
+
+2.1
+git add .
+git commit -m "..."
+git push
+
+2.17
+export_data.py, separate each row in .mat into 480 .npy
+delete.py, delete .mat files
+modified labels,loader
+
