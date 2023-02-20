@@ -127,7 +127,7 @@ def img_param_init(args):
         args.input_shape = (3, 32, 32)
         args.num_classes = 10
     elif dataset == 'Lanzhou_ERP':
-        args.input_shape = (128, 150)
+        args.input_shape = (128, 150, 1)
         args.num_classes = 2
     else:
         args.input_shape = (3, 224, 224)
