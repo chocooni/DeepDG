@@ -54,6 +54,7 @@ class ImageDataset(object):
     def __getitem__(self, index):
         index = self.indices[index]
         img = self.input_trans(self.loader(self.x[index]))
+        img = img.reshape(128, 150, 1)
         ctarget = self.target_trans(self.labels[index])
         dtarget = self.target_trans(self.dlabels[index])
         return img, ctarget, dtarget
