@@ -29,9 +29,21 @@ res_dict = {"resnet18": models.resnet18, "resnet34": models.resnet34, "resnet50"
 
 
 class ResBase(nn.Module):
-    def __init__(self, res_name):
+    def __init__(self, res_name, input_shape):
         super(ResBase, self).__init__()
         model_resnet = res_dict[res_name](pretrained=True)
+        # adapt number of channels
+        nc = input_shape[0]
+        if nc != 3:
+          tmp = model_resnet.conv1.weight.data.clone()
+
+          model_resnet.conv1 = nn.Conv2d(
+              nc, 64, kernel_size=(7, 7),
+              stride=(2, 2), padding=(3, 3), bias=False)
+
+          for i in range(nc):
+             model_resnet.conv1.weight.data[:, i, :, :] = tmp[:, i % 3, :, :]
+      
         self.conv1 = model_resnet.conv1
         self.bn1 = model_resnet.bn1
         self.relu = model_resnet.relu
