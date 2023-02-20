@@ -16,10 +16,11 @@ class ImageDataset(object):
         self.task = task
         self.dataset = dataset
         imgs = [item[0] for item in self.imgs]
-        labels = [item[1] for item in self.imgs]
-        for i in range(len(labels)):
-            if i > 13919:
-               labels[i] = labels[i]+1
+        #labels = [item[1] for item in self.imgs]
+        if domain_label > 28:
+          labels = np.ones((480), dtype=int)
+        else:
+          labels = np.zeros((480), dtype=int)
         self.labels = np.array(labels)
         self.x = imgs
         self.transform = transform
