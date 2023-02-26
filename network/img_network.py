@@ -1,6 +1,7 @@
 # coding=utf-8
 import torch.nn as nn
 from torchvision import models
+from torcheeg.models import EEGNet
 
 vgg_dict = {"vgg11": models.vgg11, "vgg13": models.vgg13, "vgg16": models.vgg16, "vgg19": models.vgg19,
             "vgg11bn": models.vgg11_bn, "vgg13bn": models.vgg13_bn, "vgg16bn": models.vgg16_bn, "vgg19bn": models.vgg19_bn}
@@ -68,6 +69,32 @@ class ResBase(nn.Module):
         x = x.view(x.size(0), -1)
         return x
 
+class EEGBase(nn.Module):
+    def __init__(self):
+        super(EEGBase, self).__init__()
+        model_eegnet = EEGNet(chunk_size=150,
+               num_electrodes=128,
+               dropout=0.5,
+               kernel_1=64,
+               kernel_2=16,
+               F1=8,
+               F2=16,
+               D=2,
+               num_classes=2)
+
+        self.block1 = model_eegnet.block1
+        self.block2 = model_eegnet.block2
+        #self.lin = model_eegnet.lin
+        self.in_features = model_eegnet.lin.in_features
+
+    def forward(self, x):
+        x = self.block1(x)
+        x = self.block2(x)
+        #x = x.flatten(start_dim=1)
+        #x = self.lin(x)
+        x = x.view(x.size(0), -1)
+
+        return x
 
 class DTNBase(nn.Module):
     def __init__(self):
