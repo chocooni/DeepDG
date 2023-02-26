@@ -4,7 +4,7 @@ test_envs=2
 gpu_ids=0
 data_dir='/content/DeepDG/Data/Lanzhou_ERP/'
 max_epoch=2
-net='resnet18'
+net='eegnet'
 task='img_dg'
 output='/content/DeepDG/train_output/test'
 
